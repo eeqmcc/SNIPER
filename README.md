@@ -76,7 +76,7 @@ SNIPER is released under Apache license. See LICENSE for details.
 ### Installation
 1. Clone the repository:
 ```
-git clone --recursive https://github.com/mahyarnajibi/SNIPER.git
+git clone --recursive https://github.com/eeqmcc/SNIPER.git
 ```
 
 2. Compile the provided MXNet fork in the repository. 
