@@ -10,6 +10,8 @@ by Mahyar Najibi and Bharat Singh
 #include <vector>
 #include <stdlib.h>
 #include <iostream>
+#include <iterator>
+using namespace std;
 namespace chips{
     void compute_overlaps(std::vector<std::vector<float> >& boxes1, std::vector<std::vector<float> >& boxes2, int n1, int n2, int ignore_flag, std::vector<std::vector<float> >& overlaps)
     {
