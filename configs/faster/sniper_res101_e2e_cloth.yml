@@ -110,7 +110,7 @@ TRAIN:
   scale: 100.0
   warmup_step: 1000 
   begin_epoch: 0
-  end_epoch: 20
+  end_epoch: 2
 
   # whether flip image
   FLIP: false
@@ -191,7 +191,7 @@ TEST:
   # Number of concurrent jobs used for inference
   # if greater than 1, the roidb is distributed over
   # concurrent jobs to increase throughput
-  CONCURRENT_JOBS: 2
+  CONCURRENT_JOBS: 1
 
   # Valid ranges in each scale (boxes which the square root of their area
   # lie in each range are marked as valid in that scale).

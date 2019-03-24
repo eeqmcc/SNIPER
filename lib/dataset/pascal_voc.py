@@ -154,8 +154,8 @@ class PascalVOC(IMDB):
             non_diff_objs = [obj for obj in objs if int(obj.find('difficult').text) == 0]
             objs = non_diff_objs
 
-	ignore_labels = ['zhici', 'xiaobandian', 'zangban', 'xiaoabandian', 'zhichi', 'maotou', 'shousha', 'baiban', 'qimao', 'cuojing', 'xiaoheidian', 'sesha', 'xiaobaidian', 'tiaosha', 'zhixi']
-	objs = [obj for obj in objs if not obj.find('name').text.lower().strip() in ignore_labels]
+	    ignore_labels = ['zhici', 'xiaobandian', 'zangban', 'xiaoabandian', 'zhichi', 'maotou', 'shousha', 'baiban', 'qimao', 'cuojing', 'xiaoheidian', 'sesha', 'xiaobaidian', 'tiaosha', 'zhixi']
+	    objs = [obj for obj in objs if not obj.find('name').text.lower().strip() in ignore_labels]
         num_objs = len(objs)
 
         boxes = np.zeros((num_objs, 4), dtype=np.uint16)

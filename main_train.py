@@ -70,12 +70,9 @@ if __name__ == '__main__':
         result_path=config.output_path,
         proposal_path=config.proposal_path, load_mask=config.TRAIN.WITH_MASK, only_gt=not config.TRAIN.USE_NEG_CHIPS)
         for image_set in image_sets]
-
     roidb = merge_roidb(roidbs)
     roidb = filter_roidb(roidb, config)
     bbox_means, bbox_stds = add_bbox_regression_targets(roidb, config)
-
-
 
     print('Creating Iterator with {} Images'.format(len(roidb)))
     train_iter = MNIteratorE2E(roidb=roidb, config=config, batch_size=batch_size, nGPUs=nGPUs,
