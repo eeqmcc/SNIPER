@@ -1,0 +1,1 @@
+python main_test_luolai.py  --cfg ./configs/faster/sniper_res101_e2e_cloth_rescale.yml

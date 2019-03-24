@@ -61,7 +61,6 @@ if __name__ == '__main__':
         # Change the scales to what we used in the paper for reproducibility
         config.TRAIN.SCALES = (3.0, 1.667, 512.0)
 
-
     # Create roidb
     image_sets = [iset for iset in config.dataset.image_set.split('+')]
     roidbs = [load_proposal_roidb(config.dataset.dataset, image_set, config.dataset.root_path,
@@ -75,11 +74,9 @@ if __name__ == '__main__':
     roidb = filter_roidb(roidb, config)
     bbox_means, bbox_stds = add_bbox_regression_targets(roidb, config)
 
-
-
     print('Creating Iterator with {} Images'.format(len(roidb)))
     train_iter = MNIteratorE2E(roidb=roidb, config=config, batch_size=batch_size, nGPUs=nGPUs,
-                               threads=config.TRAIN.NUM_THREAD, pad_rois_to=400, crop_size=(416, 416))
+                               threads=config.TRAIN.NUM_THREAD, pad_rois_to=400)
     print('The Iterator has {} samples!'.format(len(train_iter)))
 
     # Creating the Logger

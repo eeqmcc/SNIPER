@@ -41,18 +41,22 @@ class PascalVOC(IMDB):
         self.devkit_path = devkit_path
         self.data_path = os.path.join(devkit_path, 'VOC' + year)
 
-        self.classes = ['__background__',  # always index 0
-                        'aeroplane', 'bicycle', 'bird', 'boat',
-                        'bottle', 'bus', 'car', 'cat', 'chair',
-                        'cow', 'diningtable', 'dog', 'horse',
-                        'motorbike', 'person', 'pottedplant',
-                        'sheep', 'sofa', 'train', 'tvmonitor']
+        # self.classes = ['__background__',  # always index 0
+        #                 'aeroplane', 'bicycle', 'bird', 'boat',
+        #                 'bottle', 'bus', 'car', 'cat', 'chair',
+        #                 'cow', 'diningtable', 'dog', 'horse',
+        #                 'motorbike', 'person', 'pottedplant',
+        #                 'sheep', 'sofa', 'train', 'tvmonitor']
+
+        self.classes = ['__background__', 'podong', 'shajie', 'baijiao', 'chousha', 'louyin', 'cusha']
+
         self.num_classes = len(self.classes)
         self.image_set_index = self.load_image_set_index()
         self.num_images = len(self.image_set_index)
         print 'num_images', self.num_images
         self.mask_size = mask_size
         self.binary_thresh = binary_thresh
+        self.res_file_folder_ll = os.path.join(self.result_path, 'results', 'VOC' + self.year, 'Main')
 
         self.config = {'comp_id': 'comp4',
                        'use_diff': False,
@@ -149,6 +153,9 @@ class PascalVOC(IMDB):
         if not self.config['use_diff']:
             non_diff_objs = [obj for obj in objs if int(obj.find('difficult').text) == 0]
             objs = non_diff_objs
+
+	ignore_labels = ['zhici', 'xiaobandian', 'zangban', 'xiaoabandian', 'zhichi', 'maotou', 'shousha', 'baiban', 'qimao', 'cuojing', 'xiaoheidian', 'sesha', 'xiaobaidian', 'tiaosha', 'zhixi']
+	objs = [obj for obj in objs if not obj.find('name').text.lower().strip() in ignore_labels]
         num_objs = len(objs)
 
         boxes = np.zeros((num_objs, 4), dtype=np.uint16)
@@ -401,8 +408,9 @@ class PascalVOC(IMDB):
         for cls_ind, cls in enumerate(self.classes):
             if cls == '__background__':
                 continue
-            print 'Writing {} VOC results file'.format(cls)
             filename = self.get_result_file_template().format(cls)
+            print 'Writing {} VOC results file'.format(cls)
+            print(filename)
             with open(filename, 'wt') as f:
                 for im_ind, index in enumerate(self.image_set_index):
                     dets = all_boxes[cls_ind][im_ind]
@@ -419,6 +427,7 @@ class PascalVOC(IMDB):
         python evaluation wrapper
         :return: info_str
         """
+        f = open(self.result_file_name, 'a+')
         info_str = ''
         annopath = os.path.join(self.data_path, 'Annotations', '{0!s}.xml')
         imageset_file = os.path.join(self.data_path, 'ImageSets', 'Main', self.image_set + '.txt')
@@ -440,6 +449,8 @@ class PascalVOC(IMDB):
             info_str += 'AP for {} = {:.4f}\n'.format(cls, ap)
         print('Mean AP@0.5 = {:.4f}'.format(np.mean(aps)))
         info_str += 'Mean AP@0.5 = {:.4f}\n\n'.format(np.mean(aps))
+        # f.write('{0}:\n'.format(filename))
+        f.write('    Mean AP@0.5 = {:.4f}\n'.format(np.mean(aps)))
         # @0.7
         aps = []
         for cls_ind, cls in enumerate(self.classes):
